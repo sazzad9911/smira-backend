@@ -7,8 +7,10 @@ const searchData=(req, res) =>{
         return;
     }
     try {
+        const orderColumn = req.body.orderColumn? " ORDER BY "+req.body.orderColumn+" DESC":"";
+        const filterColumn = req.body.filterColumn? " AND "+req.body.filterColumn+"="+req.body.filterValue:"";
         const sql="SELECT * FROM "+req.body.tableName+" WHERE "
-        +req.body.searchColumn+" LIKE "+"'%"+req.body.searchData+"%'";
+        +req.body.searchColumn+" LIKE "+"'%"+req.body.searchData+"%'"+filterColumn+orderColumn;
         mysql.query(sql,(error,result,fields)=>{
             if(error) {
                 res.send({message:error.message})
