@@ -10,7 +10,8 @@ const signIn = require('./Routes/signIn');
 const SignOut = require('./Routes/SignOut');
 const googleAuth = require('./Routes/googleAuth');
 const getData = require('./Routes/getData');
-const mysql = require('./Server/mySql')
+const mysql = require('./Server/mySql');
+const searchData = require('./Routes/searchData');
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,6 +43,9 @@ mysql.connect(error => {
     console.log("Connected MySQL")
     app.post('/getData', async (req, res) => {
         getData(req, res)
+    })
+    app.post('/searchData',async (req, res)=>{
+        searchData(req, res)
     })
 })
 app.listen(port)
