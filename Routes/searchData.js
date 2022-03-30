@@ -8,9 +8,11 @@ const searchData=(req, res) =>{
     }
     try {
         const orderColumn = req.body.orderColumn? " ORDER BY "+req.body.orderColumn+" DESC":"";
-        const filterColumn = req.body.filterColumn? " AND "+req.body.filterColumn+"="+req.body.filterValue:"";
+        const filterColumn = req.body.filterColumn && req.body.filterValue? " AND "+req.body.filterColumn+"="+req.body.filterValue:"";
+        const between= req.body.betweenColumn && req.body.betweenA && req.body.betweenB? " AND "+req.body.betweenColumn+" BETWEEN "+
+        req.body.betweenA+" AND "+req.body.betweenB:"";
         const sql="SELECT * FROM "+req.body.tableName+" WHERE "
-        +req.body.searchColumn+" LIKE "+"'%"+req.body.searchData+"%'"+filterColumn+orderColumn;
+        +req.body.searchColumn+" LIKE "+"'%"+req.body.searchData+"%'"+filterColumn+between+orderColumn;
         mysql.query(sql,(error,result,fields)=>{
             if(error) {
                 res.send({message:error.message})
