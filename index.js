@@ -12,6 +12,7 @@ const googleAuth = require('./Routes/googleAuth');
 const getData = require('./Routes/getData');
 const mysql = require('./Server/mySql');
 const searchData = require('./Routes/searchData');
+const setData = require('./Routes/setData');
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,6 +47,9 @@ mysql.connect(error => {
     })
     app.post('/searchData',async (req, res)=>{
         searchData(req, res)
+    })
+    app.post('/setData',async (req, res)=>{
+        setData(req, res)
     })
 })
 app.listen(port)
