@@ -14,11 +14,11 @@ const signUp=(req,res) => {
             res.send(user)
             res.end()
         }).catch(err => {
-            res.send(err.message)
+            res.send({message:err.code})
             res.end()
         })
     }catch(err) {
-        res.send(err.message)
+        res.send({message:err.code})
         res.end()
     }
 }
