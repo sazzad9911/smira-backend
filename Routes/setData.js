@@ -19,12 +19,20 @@ const setData=(req, res) =>{
     }
     try{
         let values="";
-        req.body.values.forEach(doc => {
-            values=values+"'"+doc+"'";
+        req.body.values.forEach((doc,i) => {
+            if(i==req.body.values.length-1) {
+                values=values+"'"+doc+"'";
+            }else{
+                values=values+"'"+doc+"'"+",";
+            }
         })
         let columns="";
-        req.body.columns.forEach(doc => {
-            columns=columns+doc
+        req.body.columns.forEach((doc,i) => {
+            if(i==req.body.columns.length-1) {
+                columns=columns+doc
+            }else{
+                columns=columns+doc+",";
+            }
         })
         const sql="INSERT INTO "+req.body.tableName+" ("+columns+") VALUES ("+values+")";
         mysql.query(sql,(error,result,fields)=>{
