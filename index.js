@@ -13,6 +13,7 @@ const getData = require('./Routes/getData');
 const mysql = require('./Server/mySql');
 const searchData = require('./Routes/searchData');
 const setData = require('./Routes/setData');
+const updateData = require('./Routes/updateData');
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,6 +51,12 @@ mysql.connect(error => {
     })
     app.post('/setData',async (req, res)=>{
         setData(req, res)
+    })
+    app.post('/updateData',async (req, res)=>{
+        updateData(req, res)
+    })
+    app.post('/uploadImage',async (req, res)=>{
+
     })
 })
 app.listen(port)
