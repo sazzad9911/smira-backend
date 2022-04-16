@@ -59,4 +59,5 @@ mysql.connect(error => {
 
     })
 })
+console.log(port)
 app.listen(port)
