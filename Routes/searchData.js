@@ -7,6 +7,12 @@ const searchData=(req, res) =>{
         return;
     }
     try {
+        mysql.connect(error => {
+            if (error) {
+                res.send({ message: 'Error connecting to mysql server' })
+                res.end();
+                return
+            }
         const orderColumn = req.body.orderColumn? " ORDER BY "+req.body.orderColumn+" DESC":"";
         const filterColumn = req.body.filterColumn && req.body.filterValue? " AND "+req.body.filterColumn+" = '"+req.body.filterValue+"'":"";
         const between= req.body.betweenColumn && req.body.betweenA && req.body.betweenB? " AND "+req.body.betweenColumn+" BETWEEN "+
@@ -15,13 +21,15 @@ const searchData=(req, res) =>{
         +req.body.searchColumn+" LIKE "+"'%"+req.body.searchData+"%'"+filterColumn+between+orderColumn;
         mysql.query(sql,(error,result,fields)=>{
             if(error) {
-                res.send({message:error.message})
+                res.send({message:error.code})
                 res.end();
                 return
             }
             res.send(result);
             res.end();
         })
+        mysql.end();
+    })
     }catch(err) {
         res.send({message:err.message});
         res.end()

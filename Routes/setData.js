@@ -18,6 +18,12 @@ const setData=(req, res) =>{
         return
     }
     try{
+        mysql.connect(error => {
+            if (error) {
+                res.send({ message: 'Error connecting to mysql server' })
+                res.end();
+                return
+            }
         let values="";
         req.body.values.forEach((doc,i) => {
             if(i==req.body.values.length-1) {
@@ -44,6 +50,8 @@ const setData=(req, res) =>{
             res.send(result)
             res.end()
         })
+        mysql.end()
+    })
     }catch(err) {
         res.send({message:err.code})
         res.end()

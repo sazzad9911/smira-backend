@@ -37,27 +37,22 @@ app.get('/logout', async (req, res) => {
 app.post('/googleAuth', async (req, res) => {
     googleAuth(req, res)
 })
-
-mysql.connect(error => {
-    if (error) {
-        return
-    }
-    console.log("Connected MySQL")
-    app.post('/getData', async (req, res) => {
-        getData(req, res)
-    })
-    app.post('/searchData',async (req, res)=>{
-        searchData(req, res)
-    })
-    app.post('/setData',async (req, res)=>{
-        setData(req, res)
-    })
-    app.post('/updateData',async (req, res)=>{
-        updateData(req, res)
-    })
-    app.post('/uploadImage',async (req, res)=>{
-
-    })
+//sql
+app.post('/getData', async (req, res) => {
+    getData(req, res)
 })
+app.post('/searchData',async (req, res)=>{
+    searchData(req, res)
+})
+app.post('/setData',async (req, res)=>{
+    setData(req, res)
+})
+app.post('/updateData',async (req, res)=>{
+    updateData(req, res)
+})
+app.post('/uploadImage',async (req, res)=>{
+
+})
+
 console.log(port)
 app.listen(port)
