@@ -1,4 +1,4 @@
-const mysql = require('../Server/mySql')
+const mySql = require('../Server/mySql')
 
 const updateData = (req, res) => {
     if (!req.body.tableName) {
@@ -22,12 +22,7 @@ const updateData = (req, res) => {
         return
     }
     try {
-        mysql.connect(error => {
-            if (error) {
-                res.send({ message: 'Error connecting to mysql server' })
-                res.end();
-                return
-            }
+            connection= mySql()
             let columns = "";
             req.body.columns.forEach((column, i) => {
                 if (req.body.columns.length - 1 != i) {
@@ -37,17 +32,18 @@ const updateData = (req, res) => {
                 }
             })
             const sql = "UPDATE " + req.body.tableName + " SET " + columns + " WHERE " + req.body.condition;
-            mysql.query(sql, (error, result, fields) => {
+            connection.query(sql, (error, result, fields) => {
                 if (error) {
                     res.send({ message: error.code });
                     res.end();
+                    connection.destroy();
                     return;
                 }
                 res.send(result)
                 res.end();
+                connection.destroy();
             })
-            mysql.end()
-        })
+            //mysql.end()
         }catch (err) {
             res.send({ message: err.code });
             res.end();

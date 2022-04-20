@@ -1,4 +1,4 @@
-const mysql = require('../Server/mySql')
+const mySql = require('../Server/mySql')
 
 const getData = (req, res) => {
     if (!req.body.tableName) {
@@ -7,26 +7,21 @@ const getData = (req, res) => {
         return;
     }
     try {
-        mysql.connect(error => {
+        connection = mySql()
+        const orderColumn = req.body.orderColumn ? " ORDER BY " + req.body.orderColumn + " DESC" : "";
+        const limit = req.body.limit ? " LIMIT " + req.body.limit : "";
+        const condition = req.body.condition ? " WHERE " + req.body.condition : "";
+        const sql = "SELECT * FROM " + req.body.tableName + condition + orderColumn + limit;
+        connection.query(sql, (error, result, field) => {
             if (error) {
-                res.send({ message: 'Error connecting to mysql server' })
+                console.log(error.message)
+                res.send({ message: error.message })
                 res.end();
-                return
+                connection.destroy();
             }
-            const orderColumn = req.body.orderColumn ? " ORDER BY " + req.body.orderColumn + " DESC" : "";
-            const limit = req.body.limit ? " LIMIT " + req.body.limit : "";
-            const condition = req.body.condition ? " WHERE " + req.body.condition : "";
-            const sql = "SELECT * FROM " + req.body.tableName + condition + orderColumn + limit;
-            mysql.query(sql, (error, result, field) => {
-                if (error) {
-                    console.log(error.message)
-                    res.send({ message: error.message })
-                    res.end();
-                }
-                res.send(result);
-                res.end();
-            })
-            mysql.end();
+            res.send(result);
+            res.end();
+            connection.destroy();
         })
 
     } catch (err) {

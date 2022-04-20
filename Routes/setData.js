@@ -1,5 +1,5 @@
 const {auth} = require('../Server/firebase')
-const mysql=require('../Server/mySql')
+const mySql=require('../Server/mySql')
 
 const setData=(req, res) =>{
     if(!req.body.auth.uid){
@@ -18,12 +18,7 @@ const setData=(req, res) =>{
         return
     }
     try{
-        mysql.connect(error => {
-            if (error) {
-                res.send({ message: 'Error connecting to mysql server' })
-                res.end();
-                return
-            }
+        connection= mySql()
         let values="";
         req.body.values.forEach((doc,i) => {
             if(i==req.body.values.length-1) {
@@ -41,17 +36,18 @@ const setData=(req, res) =>{
             }
         })
         const sql="INSERT INTO "+req.body.tableName+" ("+columns+") VALUES ("+values+")";
-        mysql.query(sql,(error,result,fields)=>{
+        connection.query(sql,(error,result,fields)=>{
             if(error){
                 res.send({message:error.message})
                 res.end()
+                connection.destroy()
                 return
             }
             res.send(result)
             res.end()
+            connection.destroy()
         })
-        mysql.end()
-    })
+        //mysql.end()
     }catch(err) {
         res.send({message:err.code})
         res.end()
