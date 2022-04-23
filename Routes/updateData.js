@@ -36,12 +36,12 @@ const updateData = (req, res) => {
                 if (error) {
                     res.send({ message: error.code });
                     res.end();
-                    connection.destroy();
+                    connection.close();
                     return;
                 }
                 res.send(result)
                 res.end();
-                connection.destroy();
+                connection.close();
             })
             //mysql.end()
         }catch (err) {

@@ -1,6 +1,6 @@
 module.exports=function(){
 
-    let mysql=require('mysql');
+    let mysql=require('mysql2');
 
     let mySql = mysql.createConnection({
         host: "localhost",

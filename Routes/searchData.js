@@ -18,12 +18,12 @@ const searchData=(req, res) =>{
             if(error) {
                 res.send({message:error.code})
                 res.end();
-                connection.destroy();
+                connection.close();
                 return
             }
             res.send(result);
             res.end();
-            connection.destroy();
+            connection.close();
         })
     }catch(err) {
         res.send({message:err.message});

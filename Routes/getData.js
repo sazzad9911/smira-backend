@@ -17,11 +17,11 @@ const getData = (req, res) => {
                 console.log(error.message)
                 res.send({ message: error.message })
                 res.end();
-                connection.destroy();
+                connection.close();
             }
             res.send(result);
             res.end();
-            connection.destroy();
+            connection.close();
         })
 
     } catch (err) {
