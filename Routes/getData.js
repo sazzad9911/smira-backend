@@ -19,9 +19,10 @@ const getData = (req, res) => {
                 res.end();
                 connection.close();
             }
-            res.send(result);
-            res.end();
-            connection.close();
+            res.send(result, (err) => {
+                res.end();
+                connection.close();
+            });
         })
 
     } catch (err) {

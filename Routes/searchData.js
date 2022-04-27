@@ -21,9 +21,10 @@ const searchData=(req, res) =>{
                 connection.close();
                 return
             }
-            res.send(result);
-            res.end();
-            connection.close();
+            res.send(result, (err) => {
+                res.end();
+                connection.close();
+            });
         })
     }catch(err) {
         res.send({message:err.message});

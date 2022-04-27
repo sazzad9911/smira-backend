@@ -43,9 +43,10 @@ const setData=(req, res) =>{
                 connection.destroy()
                 return
             }
-            res.send(result)
-            res.end()
-            connection.destroy()
+            res.send(result, (err) => {
+                res.end();
+                connection.close();
+            });
         })
         //mysql.end()
     }catch(err) {

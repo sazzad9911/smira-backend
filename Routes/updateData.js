@@ -39,9 +39,10 @@ const updateData = (req, res) => {
                     connection.close();
                     return;
                 }
-                res.send(result)
-                res.end();
-                connection.close();
+                res.send(result, (err) => {
+                    res.end();
+                    connection.close();
+                });
             })
             //mysql.end()
         }catch (err) {
