@@ -40,12 +40,12 @@ const setData=(req, res) =>{
             if(error){
                 res.send({message:error.message})
                 res.end()
-                connection.destroy()
+                connection.release()
                 return
             }
             res.send(result, (err) => {
                 res.end();
-                connection.close();
+                connection.release()
             });
         })
         //mysql.end()

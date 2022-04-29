@@ -1,23 +1,24 @@
+
+var mysql=require('mysql2');
+
+var pool = mysql.createPool({
+    host: "localhost",
+    user: "smira",
+    password: "S1245#%cdfSD@",
+    database: "simira"
+})
+
 module.exports=function(){
 
-    let mysql=require('mysql2');
-
-    let mySql = mysql.createConnection({
-        host: "localhost",
-        user: "smira",
-        password: "S1245#%cdfSD@",
-        database: "simira"
-    })
-
-    mySql.connect(function(err){
-        if (err) {
-            console.log(`connectionRequest Failed ${err.stack}`)
-        } else {
-            console.log(`DB connectionRequest Successful ${connection.threadId}`)
+    
+    pool.getConnection((err, connection)=>{
+        if(err) {
+            console.log(err);
+            return;
         }
-    })
 
-    return mySql
+        return connection
+    })
 
 }
 
