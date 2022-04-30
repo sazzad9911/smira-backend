@@ -1,23 +1,14 @@
 
 var mysql = require('mysql2');
-var pool = mysql.createPool({
+const pool = mysql.createPool({
     host: "localhost",
     user: "smira",
     password: "S1245#%cdfSD@",
-    database: "simira"
+    database: "simira",
+    connectionLimit : 1000,               // this is the max number of connections before your pool starts waiting for a release
+    multipleStatements : true 
 })
-module.exports = function () {
-    
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log('connected mysql')
-        return connection
-    })
-
-}
+module.exports = pool
 
 
 

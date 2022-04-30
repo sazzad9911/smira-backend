@@ -1,4 +1,4 @@
-const mySql = require('../Server/mySql')
+const pool = require('../Server/mySql')
 
 const updateData = (req, res) => {
     if (!req.body.tableName) {
@@ -22,7 +22,13 @@ const updateData = (req, res) => {
         return
     }
     try {
-            connection= mySql()
+        pool.getConnection((err, connection) => {
+            if (err) {
+                console.log(err);
+                res.send(400)
+                res.end();
+                return;
+            }
             let columns = "";
             req.body.columns.forEach((column, i) => {
                 if (req.body.columns.length - 1 != i) {
@@ -39,16 +45,14 @@ const updateData = (req, res) => {
                     connection.release()
                     return;
                 }
-                res.send(result, (err) => {
-                    res.end();
-                    connection.release()
-                });
+                res.send(result)
+                connection.release()
             })
-            //mysql.end()
-        }catch (err) {
-            res.send({ message: err.code });
-            res.end();
-        }
+        })
+    } catch (err) {
+        res.send({ message: err.code });
+        res.end();
     }
+}
 
 module.exports = updateData

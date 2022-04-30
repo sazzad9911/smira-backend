@@ -1,4 +1,4 @@
-const mySql = require('../Server/mySql')
+const pool = require('../Server/mySql')
 
 const getData = (req, res) => {
     if (!req.body.tableName) {
@@ -7,24 +7,26 @@ const getData = (req, res) => {
         return;
     }
     try {
-        connection = mySql()
-        const orderColumn = req.body.orderColumn ? " ORDER BY " + req.body.orderColumn + " DESC" : "";
-        const limit = req.body.limit ? " LIMIT " + req.body.limit : "";
-        const condition = req.body.condition ? " WHERE " + req.body.condition : "";
-        const sql = "SELECT * FROM " + req.body.tableName + condition + orderColumn + limit;
-        connection.query(sql, (error, result, field) => {
-            if (error) {
-                console.log(error.message)
-                res.send({ message: error.message })
-                res.end();
-                connection.release()
+        pool.getConnection((err, connection) => {
+            if (err) {
+                console.log(err);
+                return;
             }
-            res.send(result, (err) => {
-                //res.end();
+            const orderColumn = req.body.orderColumn ? " ORDER BY " + req.body.orderColumn + " DESC" : "";
+            const limit = req.body.limit ? " LIMIT " + req.body.limit : "";
+            const condition = req.body.condition ? " WHERE " + req.body.condition : "";
+            const sql = "SELECT * FROM " + req.body.tableName + condition + orderColumn + limit;
+            connection.query(sql, (error, result, field) => {
+                if (error) {
+                    console.log(error.message)
+                    res.send({ message: error.message })
+                    res.end();
+                    connection.release()
+                }
+                res.send(result)
                 connection.release()
-            });
+            })
         })
-
     } catch (err) {
         res.send({ message: err.message })
         console.log(err.message)
