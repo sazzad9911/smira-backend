@@ -1,20 +1,19 @@
 
 var mysql = require('mysql2');
-
+var pool = mysql.createPool({
+    host: "localhost",
+    user: "smira",
+    password: "S1245#%cdfSD@",
+    database: "simira"
+})
 module.exports = function () {
-    var pool = mysql.createPool({
-        host: "localhost",
-        user: "smira",
-        password: "S1245#%cdfSD@",
-        database: "simira"
-    })
-
+    
     pool.getConnection((err, connection) => {
         if (err) {
             console.log(err);
             return;
         }
-
+        console.log('connected mysql')
         return connection
     })
 
