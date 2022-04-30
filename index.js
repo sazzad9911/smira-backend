@@ -2,6 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
+const multer  = require('multer')
+const ip = require('ip');
 const port = process.env.PORT || 4000;
 //
 const checkUser = require('./Routes/checkUser')
@@ -20,7 +22,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(cors())
-app.use(express.static(__dirname))
+app.use(express.static('uploads'))
+console.log(ip.address())
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+       cb(null, 'uploads');
+    },
+    filename: function (req, file, cb) {
+       cb(null,file.originalname);
+    }
+ });
+var upload = multer({ storage: storage });
 
 app.get('/checkUser', async (req, res) => {
     checkUser(res)
@@ -50,8 +62,9 @@ app.post('/setData',async (req, res)=>{
 app.post('/updateData',async (req, res)=>{
     updateData(req, res)
 })
-app.post('/uploadImage',async (req, res)=>{
-
+app.post('/uploadImage',upload.single('image'),(req, res)=>{
+    const image = req.image;
+    res.send({message: 'Success'})
 })
 
 console.log(port)
