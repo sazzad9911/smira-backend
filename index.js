@@ -3,7 +3,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
 const multer  = require('multer')
-const ip = require('ip');
 const port = process.env.PORT || 4000;
 //
 const checkUser = require('./Routes/checkUser')
@@ -24,7 +23,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(cors())
 app.use(express.static('uploads'))
-console.log(ip.address())
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
        cb(null, 'uploads');
