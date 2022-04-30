@@ -16,6 +16,7 @@ const mysql = require('./Server/mySql');
 const searchData = require('./Routes/searchData');
 const setData = require('./Routes/setData');
 const updateData = require('./Routes/updateData');
+const deleteData = require('./Routes/deleteData')
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,6 +62,9 @@ app.post('/setData',async (req, res)=>{
 })
 app.post('/updateData',async (req, res)=>{
     updateData(req, res)
+})
+app.post('/deleteData',async (req, res)=>{
+    deleteData(req, res)
 })
 app.post('/uploadImage',upload.single('image'),(req, res)=>{
     const image = req.image;
