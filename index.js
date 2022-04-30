@@ -62,7 +62,7 @@ app.post('/updateData',async (req, res)=>{
     updateData(req, res)
 })
 app.post('/deleteData',async (req, res)=>{
-    deleteData(req, res)
+   // deleteData(req, res)
 })
 app.post('/uploadImage',upload.single('image'),(req, res)=>{
     const image = req.image;
