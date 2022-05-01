@@ -25,13 +25,13 @@ app.use(cors())
 app.use(express.static('uploads'))
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-       cb(null, 'uploads');
-    },
-    filename: function (req, file, cb) {
-       cb(null,file.originalname);
-    }
- });
-var upload = multer({ storage: storage });
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname )
+  }
+})
+var upload = multer({ storage: storage }).single('file')
 
 app.get('/checkUser', async (req, res) => {
     checkUser(res)
@@ -64,10 +64,19 @@ app.post('/updateData',async (req, res)=>{
 app.post('/deleteData',async (req, res)=>{
    deleteData(req, res)
 })
-app.post('/uploadImage',upload.single('image'),(req, res)=>{
-    const image = req.image;
-    res.send({message: 'Success'})
-})
+app.post('/upload',function(req, res) {
+     
+    upload(req, res, function (err) {
+           if (err instanceof multer.MulterError) {
+               return res.status(500).json(err)
+           } else if (err) {
+               return res.status(500).json(err)
+           }
+      return res.status(200).send(req.file)
+
+    })
+
+});
 
 console.log(port)
 app.listen(port)
