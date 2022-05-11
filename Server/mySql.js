@@ -1,4 +1,3 @@
-
 var mysql = require('mysql2');
 const pool = mysql.createPool({
     host: "localhost",
@@ -9,8 +8,3 @@ const pool = mysql.createPool({
     multipleStatements : true 
 })
 module.exports = pool
-
-
-
-
-

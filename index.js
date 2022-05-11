@@ -16,6 +16,7 @@ const searchData = require('./Routes/searchData');
 const setData = require('./Routes/setData');
 const updateData = require('./Routes/updateData');
 const deleteData = require('./Routes/deleteData')
+const setDataWithFile = require('./Routes/setDataWithFile')
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,15 +24,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(cors())
 app.use(express.static('uploads'))
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-    cb(null, 'uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname )
-  }
-})
-var upload = multer({ storage: storage }).single('file')
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads/');
+    },
+    filename: (req, file, cb) => {
+        const fileName = file.originalname;
+        cb(null, fileName)
+    }
+});
+const upload =multer({storage: storage})
 
 app.get('/checkUser', async (req, res) => {
     checkUser(res)
@@ -64,19 +67,9 @@ app.post('/updateData',async (req, res)=>{
 app.post('/deleteData',async (req, res)=>{
    deleteData(req, res)
 })
-app.post('/upload',function(req, res) {
-     
-    upload(req, res, function (err) {
-           if (err instanceof multer.MulterError) {
-               return res.status(500).json(err)
-           } else if (err) {
-               return res.status(500).json(err)
-           }
-      return res.status(200).send(req.file)
-
-    })
-
-});
+app.post('/setDataWithFile',upload.single('file'),async (req, res)=>{
+    setDataWithFile(req, res)
+})
 
 console.log(port)
 app.listen(port)
