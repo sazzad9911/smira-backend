@@ -31,7 +31,9 @@ const setData = (req, res) => {
                 return;
             }
             let values = "";
+            
             req.body.values.forEach((doc, i) => {
+                
                 if (i == req.body.values.length - 1) {
                     values = values + "'" + doc + "'";
                 } else {
@@ -47,6 +49,7 @@ const setData = (req, res) => {
                 }
             })
             const sql = "INSERT INTO " + req.body.tableName + " (" + columns + ") VALUES (" + values + ")";
+            //console.log(sql);
             connection.query(sql, (error, result, fields) => {
                 if (error) {
                     res.send({ message: error.message })

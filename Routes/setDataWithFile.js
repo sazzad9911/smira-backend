@@ -47,11 +47,12 @@ const setDataWithFile = (req, res) => {
             let fileName= req.file.originalname
             let url='http://'+ip.address()+':4000/'+fileName
             const sql = "INSERT INTO " + req.body.tableName + " (" + req.body.columns+ ",image) VALUES (" + values+"'"+ url+"')";
-            
+            console.log(sql);
             connection.query(sql, (error, result, fields) => {
                 if (error) {
                     res.send({ message: error.message })
                     res.end()
+                    console.log(error.message)
                     connection.release()
                     return
                 }

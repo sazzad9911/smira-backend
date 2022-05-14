@@ -17,6 +17,7 @@ const setData = require('./Routes/setData');
 const updateData = require('./Routes/updateData');
 const deleteData = require('./Routes/deleteData')
 const setDataWithFile = require('./Routes/setDataWithFile')
+const uploadWithData = require('./Routes/uploadWithData')
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,6 +71,8 @@ app.post('/deleteData',async (req, res)=>{
 app.post('/setDataWithFile',upload.single('file'),async (req, res)=>{
     setDataWithFile(req, res)
 })
-
+app.post('/uploadWithData',upload.single('file'),async (req, res)=>{
+    uploadWithData(req, res)
+})
 console.log(port)
 app.listen(port)
