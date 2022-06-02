@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     user: "smira",
     password: "S1245#%cdfSD@",
     database: "simira",
-    connectionLimit : 1000,               // this is the max number of connections before your pool starts waiting for a release
+    connectionLimit : 2000,               // this is the max number of connections before your pool starts waiting for a release
     multipleStatements : true 
 })
 module.exports = pool

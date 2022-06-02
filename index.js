@@ -19,6 +19,7 @@ const deleteData = require('./Routes/deleteData')
 const setDataWithFile = require('./Routes/setDataWithFile')
 const uploadWithData = require('./Routes/uploadWithData')
 const sendEmail = require('./Routes/sendEmail')
+const makePayment = require('./Routes/makePayment')
 //
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -77,6 +78,9 @@ app.post('/uploadWithData',upload.single('file'),async (req, res)=>{
 })
 app.post('/sendEmail', async (req, res)=>{
     sendEmail(req, res)
+})
+app.post('/makePayment',async(req,res)=>{
+    makePayment(req, res)
 })
 console.log(port)
 app.listen(port)

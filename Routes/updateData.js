@@ -25,18 +25,20 @@ const updateData = (req, res) => {
         pool.getConnection((err, connection) => {
             if (err) {
                 console.log(err);
-                res.send(400)
+                res.sendStatus(400)
                 res.end();
                 return;
             }
             let columns = "";
             req.body.columns.forEach((column, i) => {
                 if (req.body.columns.length - 1 != i) {
-                    columns = columns + column + " = " + "'" + req.body.values[i] + "'" + ",";
+                    columns = columns + column + " = " + `"` + req.body.values[i] + `"` + ",";
                 } else {
-                    columns = columns + column + " = " + "'" + req.body.values[i] + "'";
+                    columns = columns + column + " = " + `"` + req.body.values[i] + `"`;
                 }
             })
+            //console.log(columns)
+           // return
             const sql = "UPDATE " + req.body.tableName + " SET " + columns + " WHERE " + req.body.condition;
             connection.query(sql, (error, result, fields) => {
                 if (error) {

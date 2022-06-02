@@ -35,9 +35,9 @@ const setData = (req, res) => {
             req.body.values.forEach((doc, i) => {
                 
                 if (i == req.body.values.length - 1) {
-                    values = values + "'" + doc + "'";
+                    values = values + `"` + doc + `"`;
                 } else {
-                    values = values + "'" + doc + "'" + ",";
+                    values = values + `"` + doc + `"` + ",";
                 }
             })
             let columns = "";
