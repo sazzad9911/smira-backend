@@ -6,19 +6,21 @@ const password="sazzad#991"
 const sendEmail =(req, res)=>{
     try{
         var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: userName,
-              pass: "sazzad#991"
-            }
+          host: "smtp.elasticemail.com",
+          port: 2525,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: 'clubsmira313@gmail.com', // generated ethereal user
+            pass: '28346C5E2BE1047891F6A330EA25885086AC', // generated ethereal password
+          },
           });
-          if(!req.body.from || !req.body.to ||!req.body.subject || !req.body.text){
+          if(!req.body.to ||!req.body.subject || !req.body.text){
             res.send({message: 'Field from,to,subject and text are required.'})
             res.end()
             return
           }
           var mailOptions = {
-            from: req.body.from,
+            from: 'clubsmira313@gmail.com',
             to: req.body.to,
             subject: req.body.subject,
             html: req.body.text

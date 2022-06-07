@@ -1,6 +1,7 @@
 const { auth } = require('../Server/firebase')
 const pool = require('../Server/mySql')
 const Razorpay = require('razorpay');
+const Pay = require('./rejorPay.json')
 
 const makePayment = async(req, res) => {
     console.log(req.body)
@@ -11,8 +12,8 @@ const makePayment = async(req, res) => {
     }
     try {
         const instance = new Razorpay({
-            key_id: 'rzp_test_LC2zuVNMYJbS0a',
-            key_secret: 'wyFkPJqUnl3Kud5HuCujfu50',
+            key_id: Pay.key_id,
+            key_secret: Pay.key_secret,
           });
         const options = {
             amount: req.body.amount,
