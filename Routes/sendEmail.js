@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
+const smtp = require('./smtp.json')
 
-const userName="clubsmira313@gmail.com"
-const password="sazzad#991"
 
 const sendEmail =(req, res)=>{
     try{
@@ -10,8 +9,8 @@ const sendEmail =(req, res)=>{
           port: 2525,
           secure: false, // true for 465, false for other ports
           auth: {
-            user: 'clubsmira313@gmail.com', // generated ethereal user
-            pass: '28346C5E2BE1047891F6A330EA25885086AC', // generated ethereal password
+            user:smtp.user, // generated ethereal user
+            pass: smtp.password, // generated ethereal password
           },
           });
           if(!req.body.to ||!req.body.subject || !req.body.text){
