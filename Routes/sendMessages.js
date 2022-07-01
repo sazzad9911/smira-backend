@@ -12,7 +12,7 @@ const sendMessages =(req, res)=>{
         res.send({ message: 'body is needed' });
         return;
     }
-    if(!Array.isArray(req.body.uid)){
+    if(!Array.isArray(req.body.uid) || req.body.uid.length==0){
         res.send({ message: 'uid is needed' });
         return;
     }
@@ -38,6 +38,7 @@ const sendMessages =(req, res)=>{
                     res.end();
                     connection.release()
                 }
+                
                 if(Array.isArray(result)){
                     let arr=[]
                     result.forEach(res=>{
@@ -50,9 +51,8 @@ const sendMessages =(req, res)=>{
                         },
                         tokens:arr,
                       };
-                      //res.send(message); 
-                    //console.log(message)
-                    messaging.sendAll(message)
+                      
+                    messaging.sendMulticast(message)
                        .then((response) => {
                          // Response is a message ID string.
                          connection.release()
