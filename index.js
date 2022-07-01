@@ -22,6 +22,7 @@ const sendEmail = require('./Routes/sendEmail')
 const makePayment = require('./Routes/makePayment')
 const verifyPayment = require('./Routes/verifyPayment')
 const sendMessage = require('./Routes/sendMessage')
+const sendMessages = require('./Routes/sendMessages')
 const query = require('./Routes/query')
 //
 
@@ -90,6 +91,9 @@ app.post('/verifyPayment',async(req,res)=>{
 })
 app.post('/sendMessage',async(req,res)=>{
     sendMessage(req, res)
+})
+app.post('/sendMessages',async(req,res)=>{
+    sendMessages(req, res)
 })
 app.post('/query',async(req,res)=>{
     query(req, res)
