@@ -19,7 +19,7 @@ const sendEmail =(req, res)=>{
             return
           }
           var mailOptions = {
-            from: 'clubsmira313@gmail.com',
+            from: 'support@smira.club',
             to: req.body.to,
             subject: req.body.subject,
             html: req.body.text
